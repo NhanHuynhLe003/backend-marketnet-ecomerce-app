@@ -1,5 +1,5 @@
 const mongoose = require("mongoose"); // Erase if already required
-
+const { API_PERMISSION_CODE } = require("../constants");
 const DOCUMENT_NAME = "ApiKey";
 const COLLECTION_NAME = "ApiKeys";
 // Declare the Schema of the Mongo model
@@ -17,7 +17,11 @@ const apiKeySchema = new mongoose.Schema(
     permissions: {
       type: [String],
       required: true,
-      enum: ["0000", "1111", "2222"],
+      enum: [
+        API_PERMISSION_CODE.ROLE1,
+        API_PERMISSION_CODE.ROLE2,
+        API_PERMISSION_CODE.ROLE3,
+      ],
     },
   },
   {
