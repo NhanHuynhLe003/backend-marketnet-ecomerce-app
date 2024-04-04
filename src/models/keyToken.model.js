@@ -10,10 +10,10 @@ var keyTokenSchema = new mongoose.Schema(
       required: true,
       ref: "Shop",
     },
-    // privateKey: {
-    //   type: String,
-    //   required: true,
-    // },
+    privateKey: {
+      type: String,
+      required: true,
+    },
     publicKey: {
       type: String,
       required: true,
@@ -22,10 +22,10 @@ var keyTokenSchema = new mongoose.Schema(
       type: Array,
       default: [],
     },
-    // refreshToken: {
-    //   type: String,
-    //   required: true,
-    // },
+    refreshToken: {
+      type: String,
+      default: "",
+    },
   },
   {
     timestamps: true,
