@@ -45,9 +45,9 @@ class Product {
   }
 
   //Tạo sản phẩm
-  async createProduct() {
-    console.log("NEW_PRODUCT::: ", this);
-    return await productModel.create(this);
+  async createProduct(productId) {
+    //Id của subProduct phải trùng với id Product cha
+    return await productModel.create({ ...this, _id: productId });
   }
 }
 
@@ -55,10 +55,14 @@ class Clothes extends Product {
   //create clothes for clothes Collection
   // Clothes sẽ override lại phương thức createProduct của Product
   async createProduct() {
-    const newClothes = await clothingModel.create(this.product_attributes);
+    const newClothes = await clothingModel.create({
+      ...this.product_attributes,
+      product_shop: this.product_shop,
+    });
     if (!newClothes) throw new BadRequestError("Failed to create new clothes");
 
-    const newProduct = await super.createProduct();
+    // Tạo Product cho kho sản phẩm chính
+    const newProduct = await super.createProduct(newClothes._id);
     if (!newProduct) throw new BadRequestError("Failed to create new product");
 
     return newProduct;
@@ -68,11 +72,14 @@ class Clothes extends Product {
 class Electronic extends Product {
   //create clothes for clothes Collection
   async createProduct() {
-    const newElectronic = await electronicModel.create(this.product_attributes);
+    const newElectronic = await electronicModel.create({
+      ...this.product_attributes,
+      product_shop: this.product_shop,
+    });
     if (!newElectronic)
       throw new BadRequestError("Failed to create new Electronic");
 
-    const newProduct = await super.createProduct();
+    const newProduct = await super.createProduct(newElectronic._id);
     if (!newProduct) throw new BadRequestError("Failed to create new product");
 
     return newProduct;
@@ -82,11 +89,14 @@ class Electronic extends Product {
 class Funiture extends Product {
   //create clothes for clothes Collection
   async createProduct() {
-    const newFuniture = await funitureModel.create(this.product_attributes);
+    const newFuniture = await funitureModel.create({
+      ...this.product_attributes,
+      product_shop: this.product_shop,
+    });
     if (!newFuniture)
       throw new BadRequestError("Failed to create new Funiture");
 
-    const newProduct = await super.createProduct();
+    const newProduct = await super.createProduct(newFuniture._id);
     if (!newProduct) throw new BadRequestError("Failed to create new product");
 
     return newProduct;

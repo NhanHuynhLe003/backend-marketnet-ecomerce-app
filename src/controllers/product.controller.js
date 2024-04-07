@@ -6,10 +6,10 @@ class ProductController {
   createProduct = async (req, res, next) => {
     new Created({
       message: "Create New Product Successfully!",
-      metadata: await ProductService.createProduct(
-        req.body.product_type,
-        req.body
-      ),
+      metadata: await ProductService.createProduct(req.body.product_type, {
+        ...req.body,
+        product_shop: req.user.userId, //Lấy userId từ rftoken sau khi verify
+      }),
     }).send(res);
   };
 }
