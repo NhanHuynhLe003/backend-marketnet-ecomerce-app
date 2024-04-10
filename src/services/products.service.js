@@ -46,7 +46,7 @@ class Product {
 
   //Tạo sản phẩm
   async createProduct(productId) {
-    //Id của subProduct phải trùng với id Product cha
+    //sau khi tạo xong id cho subProduct thì lấy _id của Product đó đặt cho product Cha
     return await productModel.create({ ...this, _id: productId });
   }
 }
@@ -57,7 +57,7 @@ class Clothes extends Product {
   async createProduct() {
     const newClothes = await clothingModel.create({
       ...this.product_attributes,
-      product_shop: this.product_shop,
+      product_shop: this.product_shop, //product_shop lấy từ rfToken do đó ko có trong body truyền vào
     });
     if (!newClothes) throw new BadRequestError("Failed to create new clothes");
 
